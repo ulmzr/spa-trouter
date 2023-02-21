@@ -1,0 +1,26 @@
+{
+   "name": "spa-router-lite",
+   "version": "0.0.1",
+   "description": "Simple SPA Router",
+   "main": "index.js",
+   "dependencies": {
+      "chokidar": "^3.5.3",
+      "esbuild": "^0.17.9",
+      "rollup": "^3.17.2",
+      "ws": "^8.12.1"
+   },
+   "devDependencies": {},
+   "scripts": {
+      "start": "rollup -c"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/ulmzr/spa-router.git"
+   },
+   "keywords": [
+      "SPA",
+      "Router"
+   ],
+   "author": "Yulmizar",
+   "license": "MIT"
+}
