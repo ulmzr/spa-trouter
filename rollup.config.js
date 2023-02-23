@@ -1,7 +1,7 @@
 const { transform } = require("esbuild");
 
 module.exports = {
-   input: "src/index.js",
+   input: "./router.js",
    output: [
       {
          file: "./index.js",

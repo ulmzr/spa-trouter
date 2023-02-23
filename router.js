@@ -47,7 +47,7 @@ function Router(routes, callback) {
 
    document.body.addEventListener("click", (ev) => {
       ev.preventDefault();
-      isActive = ev.target.getAttribute("href");
+      const isActive = ev.target.getAttribute("href");
       if (isActive) {
          navigateTo(isActive);
       }
@@ -59,7 +59,12 @@ function Router(routes, callback) {
 module.exports = Router;
 
 /**
+let cmp, params, uri, active;
+$: location.pathname, uri = location.pathname, active = uri.split('/')[1] || 'home';
+
 addEventListener('replacestate', track);
 addEventListener('pushstate', track);
 addEventListener('popstate', track);
+
+const isActive = str => active === str ? 'selected' : ''
  */
