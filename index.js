@@ -1,1 +1,68 @@
-function Router(s,o){const i=e=>new RegExp("^"+e.replace(/\//g,"\\/").replace(/:\w+/g,"(.+)")+"$"),l=e=>{const t=location.pathname.split("/").slice(2),c=Array.from(e.matchAll(/:(\w+)/g)).map(a=>a[1]);return Object.fromEntries(c.map((a,p)=>[a,t[p].replace(/_/g," ")]))},n=()=>{let e=s.filter(t=>location.pathname.match(i(t[0])))[0];e?e[1](l(e[0])):typeof o=="function"?o():console.log("Page you are looking for is not found. Probably was eaten by a snake!");},r=e=>{history.pushState(null,null,e),n();};r(location.pathname),addEventListener("popstate",n),addEventListener("replacestate",n),addEventListener("pushstate",n),addEventListener("popstate",n),document.body.addEventListener("click",e=>{e.preventDefault();const t=e.target.getAttribute("href");t&&r(t);});}module.exports=Router;
+function router(routes, cb) {
+   if (!routes) return;
+
+   const regex = (path) =>
+      new RegExp(
+         "^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$"
+      );
+
+   const startRoute = (uri) => {
+      if (typeof uri === "string") history.pushState(null, null, uri);
+
+      const params = () => {
+         const values = location.pathname.split("/").slice(2);
+
+         const keys = Array.from(match.path.matchAll(/:(\w+)/g)).map(
+            (result) => result[1]
+         );
+
+         return Object.fromEntries(
+            keys.map((key, i) => {
+               return [key, values[i].replace(/_/g, " ")];
+            })
+         );
+      };
+
+      const match = routes.filter((route) => {
+         let path = regex(route.path);
+         return location.pathname.match(path);
+      })[0];
+
+      if (match) match.page(params());
+      else if (typeof callback === "function") cb();
+      else console.log("404 ☛ Page not found!");
+
+      return;
+   };
+
+   addEventListener("popstate", startRoute);
+   addEventListener("replacestate", startRoute);
+   addEventListener("pushstate", startRoute);
+
+   document.body.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      const isActive = ev.target.getAttribute("href");
+
+      if (isActive) startRoute(isActive);
+   });
+
+   startRoute(location.pathname);
+}
+
+export default router;
+
+/**
+let cmp, params, uri, active;
+$: location.pathname, uri = location.pathname, active = uri.split('/')[1] || 'home';
+
+addEventListener('replacestate', track);
+addEventListener('pushstate', track);
+addEventListener('popstate', track);
+
+const isActive = str => active === str ? 'selected' : ''
+
+function track(obj) {
+   uri = obj.state || obj.uri || location.pathname;
+   if (window.ga) ga.send('pageview', { dp:uri });
+}
+ */

@@ -1,26 +1,11 @@
 {
-   "name": "spa-router-lite",
-   "version": "0.1.0",
-   "description": "Simple SPA Router",
+   "name": "malinajs-trouter",
+   "version": "1.0.0",
+   "description": "Simple Malinajs SPA Router",
    "main": "index.js",
-   "dependencies": {
-      "chokidar": "^3.5.3",
-      "esbuild": "^0.17.9",
-      "rollup": "^3.17.2",
-      "ws": "^8.12.1"
-   },
-   "devDependencies": {
-      "chokidar": "^3.5.3",
-      "esbuild": "^0.17.9",
-      "rollup": "^3.17.2",
-      "ws": "^8.12.1"
-   },
-   "scripts": {
-      "build": "rollup -c"
-   },
    "repository": {
       "type": "git",
-      "url": "git+https://github.com/ulmzr/spa-router.git"
+      "url": "git+https://github.com/ulmzr/malinajs-trouter.git"
    },
    "keywords": [
       "SPA",
