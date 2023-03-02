@@ -40,10 +40,11 @@ function router(routes, cb) {
    addEventListener("pushstate", startRoute);
 
    document.body.addEventListener("click", (ev) => {
-      ev.preventDefault();
       const isActive = ev.target.getAttribute("href");
-
-      if (isActive) startRoute(isActive);
+      if (isActive) {
+         ev.preventDefault();
+         startRoute(isActive);
+      }
    });
 
    startRoute(location.pathname);
