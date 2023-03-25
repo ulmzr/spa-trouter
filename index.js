@@ -52,18 +52,3 @@ function router(routes, cb) {
 
 export default router;
 
-/**
-let cmp, params, uri, active;
-$: location.pathname, uri = location.pathname, active = uri.split('/')[1] || 'home';
-
-addEventListener('replacestate', track);
-addEventListener('pushstate', track);
-addEventListener('popstate', track);
-
-const isActive = str => active === str ? 'selected' : ''
-
-function track(obj) {
-   uri = obj.state || obj.uri || location.pathname;
-   if (window.ga) ga.send('pageview', { dp:uri });
-}
- */
