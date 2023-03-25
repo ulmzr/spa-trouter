@@ -1,4 +1,4 @@
-function router(routes, cb) {
+function router(routes, callback) {
    if (!routes) return;
 
    const regex = (path) =>
@@ -29,7 +29,7 @@ function router(routes, cb) {
       })[0];
 
       if (match) match.page(params());
-      else if (typeof callback === "function") cb();
+      else if (typeof callback === "function") callback();
       else console.log("404 ☛ Page not found!");
 
       return;
@@ -51,4 +51,3 @@ function router(routes, cb) {
 }
 
 export default router;
-
