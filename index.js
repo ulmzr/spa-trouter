@@ -11,7 +11,6 @@ function router(routes, callback, err) {
 
       const params = () => {
          const values = location.pathname.split("/").slice(2);
-         console.log("values:", values);
 
          let obj = {};
          for (let i = 0; i < values.length; i++) {
@@ -27,7 +26,6 @@ function router(routes, callback, err) {
       })[0];
 
       if (match) {
-         console.log(params());
          new Promise((resolve) => {
             match.page.then((m) =>
                resolve(
