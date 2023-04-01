@@ -13,22 +13,12 @@ function router(routes, callback, err) {
          const values = location.pathname.split("/").slice(2);
          console.log("values:", values);
 
-         // const keys = Array.from(match.path.matchAll(/:(\w+)/g)).map(
-         //    (result) => result[1]
-         // );
-
          let obj = {};
          for (let i = 0; i < values.length; i++) {
             obj[`\$${i + 1}`] = values[i];
          }
 
          return obj;
-
-         // return Object.fromEntries(
-         //    keys.map((key, i) => {
-         //       return [key, values[i].replace(/_/g, " ")];
-         //    })
-         // );
       };
 
       const match = routes.filter((route) => {
