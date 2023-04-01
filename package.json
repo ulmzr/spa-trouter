@@ -1,6 +1,6 @@
 {
    "name": "malinajs-trouter",
-   "version": "1.0.3",
+   "version": "1.1.0",
    "description": "Simple Malinajs SPA Router",
    "main": "index.js",
    "repository": {

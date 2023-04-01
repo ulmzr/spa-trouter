@@ -1,26 +1,34 @@
-function router(routes, callback) {
-   if (!routes) return;
+function router(routes, callback, err) {
+   if (!routes) return $;
 
    const regex = (path) =>
       new RegExp(
          "^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$"
       );
 
-   const startRoute = (uri) => {
+   const start = (uri) => {
       if (typeof uri === "string") history.pushState(null, null, uri);
 
       const params = () => {
          const values = location.pathname.split("/").slice(2);
+         console.log("values:", values);
 
-         const keys = Array.from(match.path.matchAll(/:(\w+)/g)).map(
-            (result) => result[1]
-         );
+         // const keys = Array.from(match.path.matchAll(/:(\w+)/g)).map(
+         //    (result) => result[1]
+         // );
 
-         return Object.fromEntries(
-            keys.map((key, i) => {
-               return [key, values[i].replace(/_/g, " ")];
-            })
-         );
+         let obj = {};
+         for (let i = 0; i < values.length; i++) {
+            obj[`\$${i + 1}`] = values[i];
+         }
+
+         return obj;
+
+         // return Object.fromEntries(
+         //    keys.map((key, i) => {
+         //       return [key, values[i].replace(/_/g, " ")];
+         //    })
+         // );
       };
 
       const match = routes.filter((route) => {
@@ -28,26 +36,50 @@ function router(routes, callback) {
          return location.pathname.match(path);
       })[0];
 
-      if (match) match.page(params());
-      else if (typeof callback === "function") callback();
-      else console.log("404 ☛ Page not found!");
+      if (match) {
+         console.log(params());
+         new Promise((resolve) => {
+            match.page.then((m) =>
+               resolve(
+                  callback({
+                     cmp: m.default,
+                     params: params(),
+                  })
+               )
+            );
+         });
+      } else if (typeof err === "object") {
+         new Promise((resolve) => {
+            err.then((m) =>
+               resolve(
+                  callback({
+                     cmp: m.default,
+                  })
+               )
+            );
+         });
+      } else if (typeof err === "function") {
+         callback({
+            cmp: err,
+         });
+      } else console.log("404 ☛ Page not found!");
 
       return;
    };
 
-   addEventListener("popstate", startRoute);
-   addEventListener("replacestate", startRoute);
-   addEventListener("pushstate", startRoute);
+   addEventListener("popstate", start);
+   addEventListener("replacestate", start);
+   addEventListener("pushstate", start);
 
    document.body.addEventListener("click", (ev) => {
       const isActive = ev.target.getAttribute("href");
       if (isActive) {
          ev.preventDefault();
-         startRoute(isActive);
+         start(isActive);
       }
    });
 
-   startRoute(location.pathname);
+   start(location.pathname);
 }
 
 export default router;
