@@ -1,11 +1,11 @@
 {
    "name": "malinajs-trouter",
-   "version": "1.1.2",
+   "version": "2.0.0",
    "description": "Simple Malinajs SPA Router",
    "main": "index.js",
    "repository": {
       "type": "git",
-      "url": "git+https://github.com/ulmzr/malinajs-trouter.git"
+      "url": "git+https://github.com/ulmzr/spa-trouter.git"
    },
    "keywords": [
       "SPA",

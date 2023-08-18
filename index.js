@@ -1,73 +1,74 @@
-function router(routes, callback, err) {
-   if (!routes) return $;
+function router() {
+   let len = arguments.length - 1;
+   let callback = arguments[len];
+   let routes = arguments[0];
+   let e404 = `404 - PAGE NOT FOUND`;
+   let curr;
 
-   const regex = (path) =>
-      new RegExp(
-         "^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$"
-      );
+   if (len === 2) e404 = arguments[1];
 
-   const start = (uri) => {
-      if (typeof uri === "string") history.pushState(null, null, uri);
-
-      const params = () => {
-         const values = location.pathname.split("/").slice(2);
-
-         let obj = {};
-         for (let i = 0; i < values.length; i++) {
-            obj[`\$${i + 1}`] = values[i];
-         }
-
-         return obj;
-      };
-
-      const match = routes.filter((route) => {
-         let path = regex(route.path);
-         return location.pathname.match(path);
-      })[0];
-
-      if (match) {
-         new Promise((resolve) => {
-            match.page.then((m) =>
-               resolve(
-                  callback({
-                     cmp: m.default,
-                     params: params(),
-                  })
-               )
-            );
-         });
-      } else if (typeof err === "object") {
-         new Promise((resolve) => {
-            err.then((m) =>
-               resolve(
-                  callback({
-                     cmp: m.default,
-                  })
-               )
-            );
-         });
-      } else if (typeof err === "function") {
-         callback({
-            cmp: err,
-         });
-      } else console.log("404 ☛ Page not found!");
-
-      return;
-   };
-
-   addEventListener("popstate", start);
-   addEventListener("replacestate", start);
-   addEventListener("pushstate", start);
+   addEventListener("popstate", route);
+   addEventListener("pushstate", route);
 
    document.body.addEventListener("click", (ev) => {
-      const isActive = ev.target.getAttribute("href");
-      if (isActive) {
-         ev.preventDefault();
-         start(isActive);
-      }
+      let href = ev.target.getAttribute("href");
+
+      if (!href) return;
+
+      ev.preventDefault();
+      route(href);
    });
 
-   start(location.pathname);
+   route();
+
+   function route(x, replace) {
+      if (curr == x) return;
+      if (typeof x === "string") history[replace ? "replace" : "push" + "State"](x, null, x);
+
+      let params = {};
+      let match = routes.filter((route) => {
+         let path = route.path;
+         let keys = path.match(/\/:\w+/g);
+         let re = new RegExp(path.replace(keys?.join(""), "(.*)"));
+         let matched = location.pathname.match(re);
+         let isMatch = matched && matched[0] === matched.input;
+
+         if (isMatch) {
+            curr = location.pathname;
+            let values = matched[1]?.split("/").slice(1);
+
+            if (values && keys) {
+               keys = keys?.join("").split("/:").slice(1);
+               for (let i = 0; i < values.length; i++) {
+                  if (i < keys.length) params[keys[i]] = values[i];
+                  else params[keys[i]] = values[i];
+               }
+            }
+         }
+         return isMatch;
+      });
+
+      match = match[match.length - 1];
+
+      if (match) {
+         callback(match.page, params);
+      } else {
+         if (typeof e404 === "string") console.log(e404);
+         else callback(e404, params);
+      }
+   }
+
+   return {
+      route,
+      listen() {
+         route(location.pathname);
+      },
+      unlisten() {
+         removeEventListener("popstate", route);
+         removeEventListener("pushstate", route);
+         routes = [];
+      },
+   };
 }
 
 export default router;
