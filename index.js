@@ -3,9 +3,8 @@ function router() {
    let callback = arguments[len];
    let routes = arguments[0];
    let e404 = `404 - PAGE NOT FOUND`;
-   let curr;
-
    if (len === 2) e404 = arguments[1];
+   let curr;
 
    addEventListener("popstate", route);
    addEventListener("pushstate", route);
