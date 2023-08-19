@@ -34,50 +34,49 @@ project/
 ```
 **Script section**
 
-```js
-import Router from "spa-trouter";
-import Home from "./pages/Home.xht";
-import About from "./pages/About.xht";
-import Config from "./pages/config/pageIndex.xht";
-import Error from "./modules/E404.xht";
-
-let cmp, params, active, uri;
-
-const routes = [
-   {
-      path: '/',
-      page: Home
-   },
-   {
-      path: '/about',
-      page: About
-   },
-   {
-      path: '/config/:page',
-      page: Config
-   }
-]
-
-let router = Router(routes, Error, (page, opts) => {
-   cmp = page
-   params = opts
-}).listen()
-
-$onDestroy(() => router.unlisten())
-
-```
-**HTML section**
-
 ```html
 <!-- App.xht or App.svelte -->
+<script>
+   import Router from "spa-trouter";
+   import Home from "./pages/Home.xht";
+   import About from "./pages/About.xht";
+   import Config from "./pages/config/pageIndex.xht";
+   import Error from "./modules/E404.xht";
+
+   let cmp, params, active, uri;
+
+   const routes = [
+      {
+         path: '/',
+         page: Home
+      },
+      {
+         path: '/about',
+         page: About
+      },
+      {
+         path: '/config/:page',
+         page: Config
+      }
+   ]
+
+   let router = Router(routes, Error, (page, opts) => {
+      cmp = page
+      params = opts
+   }).listen()
+
+   $onDestroy(() => router.unlisten())
+</script>
+
 <aside>
    <a href="/">Home</a>
    <a href="/about">About</a>
    <a href="/config/system">About</a>
 <aside>
+   
 <main>
    {#if cmp}
-	   <component:cmp {params} />
+      <component:cmp {params} />
    {/if}
 </main>
 
