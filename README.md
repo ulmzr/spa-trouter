@@ -80,22 +80,19 @@ onDestroy(() => router.unlisten()) // svelte
 <aside>
 <main>
 	{#if cmp}
-		<!-- Malina -->
 		<component:cmp {params} />
-		<!-- Svelte -->
-		<svelte:component this={cmp} {params} />
 	{/if}
 </main>
 
-<!-- pageIndex.xht or pageIndex.svelte -->
+<!-- pageIndex.xht -->
 <script>
-	import * as pages from './pages.js'; // malina
+	import * as pages from './pages.js';
 	export let params = {};
 	const page = pages[params.page];
 </script>
+
 {#if page}
-	<component:page /> // malina
-	<svelte:component this={page} /> // svelte
+	<component:page />
 {:else}
    ...
 {/if}
