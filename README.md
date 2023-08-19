@@ -35,7 +35,6 @@ project/
 **Script section**
 
 ```js
-import { onDestroy } from 'svelte'; // svelte only
 import Router from "spa-trouter";
 
 import Home from "./pages/Home.xht";
@@ -65,8 +64,7 @@ let router = Router(routes, Error, (page, opts) => {
    params = opts
 }).listen()
 
-$onDestroy(() => router.unlisten()) // malina
-onDestroy(() => router.unlisten()) // svelte
+$onDestroy(() => router.unlisten())
 
 ```
 **HTML section**
