@@ -36,7 +36,6 @@ project/
 
 ```js
 import Router from "spa-trouter";
-
 import Home from "./pages/Home.xht";
 import About from "./pages/About.xht";
 import Config from "./pages/config/pageIndex.xht";
