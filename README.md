@@ -76,20 +76,20 @@ $onDestroy(() => router.unlisten())
    <a href="/config/system">About</a>
 <aside>
 <main>
-	{#if cmp}
-		<component:cmp {params} />
-	{/if}
+   {#if cmp}
+	   <component:cmp {params} />
+   {/if}
 </main>
 
 <!-- pageIndex.xht -->
 <script>
-	import * as pages from './pages.js';
-	export let params = {};
-	const page = pages[params.page];
+   import * as pages from './pages.js';
+   export let params = {};
+   const page = pages[params.page];
 </script>
 
 {#if page}
-	<component:page />
+   <component:page />
 {:else}
    ...
 {/if}
