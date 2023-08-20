@@ -1,6 +1,6 @@
 {
    "name": "spa-trouter",
-   "version": "2.0.0",
+   "version": "2.0.1",
    "description": "Simple SPA Router",
    "main": "index.js",
    "repository": {
