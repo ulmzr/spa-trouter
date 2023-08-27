@@ -40,7 +40,7 @@ function router() {
                keys = keys?.join("").split("/:").slice(1);
                for (let i = 0; i < values.length; i++) {
                   if (i < keys.length) params[keys[i]] = values[i];
-                  else params[i] = values[i].replace;
+                  else params[i] = values[i];
                }
             }
          }
